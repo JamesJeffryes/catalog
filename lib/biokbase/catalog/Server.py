@@ -1,21 +1,23 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-from wsgiref.simple_server import make_server
-import sys
-import json
-import traceback
 import datetime
-from multiprocessing import Process
+import json
+import os
+import random as _random
+import sys
+import traceback
+from ConfigParser import ConfigParser
 from getopt import getopt, GetoptError
-from jsonrpcbase import JSONRPCService, InvalidParamsError, KeywordError,\
+from multiprocessing import Process
+from os import environ
+from wsgiref.simple_server import make_server
+
+import requests as _requests
+from jsonrpcbase import JSONRPCService, InvalidParamsError, KeywordError, \
     JSONRPCError, InvalidRequestError
 from jsonrpcbase import ServerError as JSONServerError
-from os import environ
-from ConfigParser import ConfigParser
+
 from biokbase import log
-import requests as _requests
-import random as _random
-import os
 from biokbase.catalog.authclient import KBaseAuth as _KBaseAuth
 
 DEPLOY = 'KB_DEPLOYMENT_CONFIG'

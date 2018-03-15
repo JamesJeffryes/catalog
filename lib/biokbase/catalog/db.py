@@ -1,5 +1,3 @@
-
-import json
 import pprint
 import copy
 from pymongo import MongoClient
@@ -249,7 +247,7 @@ class MongoCatalogDBI:
         self.secure_config_params.ensure_index([
             ('module_name_lc',ASCENDING),
             ('version',ASCENDING),
-            ('param_name',ASCENDING)], 
+            ('param_name',ASCENDING)],
             unique=True, sparse=False)
 
 

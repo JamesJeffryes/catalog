@@ -1,13 +1,9 @@
-
-
-import unittest
-import os
-
-from pprint import pprint
-
-from catalog_test_util import CatalogTestUtil
-from biokbase.catalog.Impl import Catalog
 import time
+import unittest
+
+from biokbase.catalog.Impl import Catalog
+from catalog_test_util import CatalogTestUtil
+
 
 # tests all the basic get methods
 class BasicCatalogTest(unittest.TestCase):

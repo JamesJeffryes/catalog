@@ -43,8 +43,9 @@ sleep 1
 
 echo '\n\nstarting tests'
 export PYTHONPATH=pylib:$PYTHONPATH
-coverage run --source=pylib/biokbase/catalog --omit=*Client.py,*Server.py -m unittest discover -p "*_test.py"
+coverage run --source=pylib/biokbase/catalog --omit=*lient.py,*Server.py -m unittest discover -p "*_test.py"
 TEST_RETURN_CODE=$?
+coverage report -m
 echo "unit tests returned with error code=${TEST_RETURN_CODE}"
 
 

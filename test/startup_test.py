@@ -1,13 +1,9 @@
-
-
 import unittest
-import os
 
-from pprint import pprint
 import semantic_version
 
-from catalog_test_util import CatalogTestUtil
 from biokbase.catalog.Impl import Catalog
+from catalog_test_util import CatalogTestUtil
 
 
 # tests all the basic get methods

@@ -1,18 +1,17 @@
-import re
-import os
-import traceback
-import shutil
-import time
-import datetime
-import pprint
-import json
 import codecs
-import semantic_version
-
-#import git
+import datetime
+import json
+import os
+import pprint
+import re
+import shutil
 import subprocess
-import yaml
+import time
+import traceback
 from urlparse import urlparse
+
+import semantic_version
+import yaml
 from docker import Client as DockerClient
 from docker.tls import TLSConfig as DockerTLSConfig
 
@@ -20,12 +19,11 @@ from biokbase.catalog.local_function_reader import LocalFunctionReader
 from biokbase.narrative_method_store.client import NarrativeMethodStore
 
 
-    
 class Registrar:
 
     # params is passed in from the controller, should be the same as passed into the spec
     # db is a reference to the Catalog DB interface (usually a MongoCatalogDBI instance)
-    def __init__(self, params, registration_id, timestamp, username, is_admin,token, db, temp_dir, docker_base_url, 
+    def __init__(self, params, registration_id, timestamp, username, is_admin,token, db, temp_dir, docker_base_url,
                     docker_registry_host, docker_push_allow_insecure, nms_url, nms_admin_token, module_details,
                     ref_data_base, kbase_endpoint, prev_dev_version):
         self.db = db
@@ -56,7 +54,7 @@ class Registrar:
         self.log_buffer = [];
         self.last_log_time = time.time() # in seconds
         self.log_interval = 1.0 # save log to mongo every second
-        
+
         self.ref_data_base = ref_data_base
         self.kbase_endpoint = kbase_endpoint
         self.prev_dev_version = prev_dev_version
@@ -148,10 +146,10 @@ class Registrar:
                     docker_cert_path = os.environ['DOCKER_CERT_PATH']
                     docker_tls = False
                     if (docker_cert_path is not None) and len(docker_cert_path) > 0:
-                        docker_tls = DockerTLSConfig(verify=False, 
-                                                     client_cert=(docker_cert_path + '/cert.pem', 
+                        docker_tls = DockerTLSConfig(verify=False,
+                                                     client_cert=(docker_cert_path + '/cert.pem',
                                                                   docker_cert_path + '/key.pem'))
-                    self.log("Docker settings from environment variables are used: docker-host = " + docker_host + 
+                    self.log("Docker settings from environment variables are used: docker-host = " + docker_host +
                              ", docker_cert_path = " + str(docker_cert_path))
                     dockerclient = DockerClient(base_url = docker_host,timeout=docker_timeout,
                             version='auto', tls=docker_tls)
@@ -162,7 +160,7 @@ class Registrar:
                 self.set_build_step('building the docker image')
                 # imageId is not yet populated properly
                 imageId = self.build_docker_image(dockerclient,self.image_name,basedir)
-                
+
                 # check if reference data version is defined in kbase.yml
                 if 'data-version' in self.kb_yaml:
                     ref_data_ver = str(self.kb_yaml['data-version']).strip()
@@ -175,10 +173,10 @@ class Registrar:
                         else:
                             self.set_build_step('preparing reference data (running init entry-point), ' +
                                                 'ref-data version: ' + ref_data_ver)
-                            self.prepare_ref_data(dockerclient, self.image_name, self.ref_data_base, ref_data_folder, 
+                            self.prepare_ref_data(dockerclient, self.image_name, self.ref_data_base, ref_data_folder,
                                                   ref_data_ver, basedir, self.temp_dir, self.registration_id,
                                                   self.token, self.kbase_endpoint)
-                
+
 
                 self.set_build_step('preparing compilation report')
                 self.log('Preparing compilation report.')
@@ -186,8 +184,8 @@ class Registrar:
                 # Trying to extract compilation report with line numbers of funcdefs from docker image.
                 # There is "report" entry-point command responsible for that. In case there are any
                 # errors we just skip it.
-                compilation_report = self.prepare_compilation_report(dockerclient, self.image_name, basedir, 
-                                                                     self.temp_dir, self.registration_id, 
+                compilation_report = self.prepare_compilation_report(dockerclient, self.image_name, basedir,
+                                                                     self.temp_dir, self.registration_id,
                                                                      self.token, self.kbase_endpoint)
 
                 if compilation_report is None:
@@ -210,7 +208,7 @@ class Registrar:
             # 4 - Update the DB
             self.set_build_step('updating the catalog')
             self.update_the_catalog(basedir, ref_data_folder, ref_data_ver, compilation_report)
-            
+
             self.build_is_complete()
 
         except Exception as e:
@@ -263,7 +261,7 @@ class Registrar:
             # validate service_config parameters
             if 'dynamic-service' in service_config:
                 if not type(service_config['dynamic-service']) == type(True):
-                    raise ValueError('Invalid service-config in kbase.yaml - "dynamic-service" property must be a boolean "true" or "false".') 
+                    raise ValueError('Invalid service-config in kbase.yaml - "dynamic-service" property must be a boolean "true" or "false".')
 
         # module_name must match what exists (unless it is not yet defined)
         if 'module_name' in self.module_details:
@@ -597,7 +595,7 @@ class Registrar:
         self.log('done pushing docker image to registry for ' + image_name+'\n');
 
 
-    def run_docker_container(self, dockerclient, image_name, token, 
+    def run_docker_container(self, dockerclient, image_name, token,
                              kbase_endpoint, binds, work_dir, command, print_details=False):
         cnt_id = None
         try:
@@ -606,7 +604,7 @@ class Registrar:
                 file.write(token)
             config_file = os.path.join(work_dir, "config.properties")
             with open(config_file, "w") as file:
-                file.write("[global]\n" + 
+                file.write("[global]\n" +
                            "job_service_url = " + kbase_endpoint + "/userandjobstate\n" +
                            "workspace_url = " + kbase_endpoint + "/ws\n" +
                            "shock_url = " + kbase_endpoint + "/shock-api\n" +
@@ -649,7 +647,7 @@ class Registrar:
                 pass
 
 
-    def prepare_ref_data(self, dockerclient, image_name, ref_data_base, ref_data_folder, 
+    def prepare_ref_data(self, dockerclient, image_name, ref_data_base, ref_data_folder,
                          ref_data_ver, basedir, temp_dir, registration_id, token, kbase_endpoint):
         self.log('\nReference data: creating docker container for initialization')
         if not os.path.exists(ref_data_base):
@@ -665,7 +663,7 @@ class Registrar:
                      repo_data_dir: {"bind": "/kb/module/data", "mode": "rw"}}
             temp_work_dir = os.path.join(temp_dir,registration_id,'ref_data_workdir')
             os.mkdir(temp_work_dir)
-            self.run_docker_container(dockerclient, image_name, token, kbase_endpoint, 
+            self.run_docker_container(dockerclient, image_name, token, kbase_endpoint,
                                       binds, temp_work_dir, 'init', print_details=True)
             ready_file = os.path.join(temp_ref_data_dir, "__READY__")
             if os.path.exists(ready_file):
@@ -683,20 +681,20 @@ class Registrar:
                 pass
 
 
-    def prepare_compilation_report(self, dockerclient, image_name, basedir, temp_dir, 
+    def prepare_compilation_report(self, dockerclient, image_name, basedir, temp_dir,
                                    registration_id, token, kbase_endpoint):
         self.log('\nCompilation report: creating docker container')
         try:
             temp_work_dir = os.path.join(temp_dir,registration_id,'report_workdir')
             os.mkdir(temp_work_dir)
-            self.run_docker_container(dockerclient, image_name, token, kbase_endpoint, 
+            self.run_docker_container(dockerclient, image_name, token, kbase_endpoint,
                                       None, temp_work_dir, 'report')
             report_file = os.path.join(temp_work_dir, 'compile_report.json')
             if not os.path.exists(report_file):
                 self.log("Report file doesn't exist: " + report_file)
                 return None
             else:
-                with codecs.open(report_file, 'r', 'utf-8', errors='ignore') as f:    
+                with codecs.open(report_file, 'r', 'utf-8', errors='ignore') as f:
                     return json.load(f)
         except Exception, e:
             self.log("Error preparing compilation log: " + str(e))

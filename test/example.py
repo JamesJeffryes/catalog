@@ -1,4 +1,3 @@
-
 import sys
 from biokbase.catalog.Client import Catalog
 from pprint import pprint

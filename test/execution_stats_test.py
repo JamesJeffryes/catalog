@@ -1,14 +1,8 @@
-
-
-import unittest
-import os
-import json
 import random
+import unittest
 
-from pprint import pprint
-
-from catalog_test_util import CatalogTestUtil
 from biokbase.catalog.Impl import Catalog
+from catalog_test_util import CatalogTestUtil
 
 
 # tests all the basic get methods

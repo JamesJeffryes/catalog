@@ -1,14 +1,8 @@
-
-
 import unittest
-import os
 
-from pprint import pprint
-from time import time, sleep
-
-from catalog_test_util import CatalogTestUtil
 from biokbase.catalog.Impl import Catalog
 from biokbase.narrative_method_store.client import NarrativeMethodStore
+from catalog_test_util import CatalogTestUtil
 
 
 # tests all the basic get methods

@@ -1,14 +1,11 @@
-
-
-import os
-import json
 import datetime
-
-from pprint import pprint, pformat
+import json
+import os
 from ConfigParser import ConfigParser
-from pymongo import MongoClient
-from docker import Client as DockerAPIClient
+from pprint import pformat
 
+from docker import Client as DockerAPIClient
+from pymongo import MongoClient
 
 from biokbase.catalog.db import MongoCatalogDBI
 

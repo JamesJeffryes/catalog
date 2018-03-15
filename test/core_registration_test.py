@@ -1,20 +1,14 @@
-
-
 import unittest
-import os
-
 from pprint import pprint
 from time import time, sleep
 
-from catalog_test_util import CatalogTestUtil
 from biokbase.catalog.Impl import Catalog
 from biokbase.narrative_method_store.client import NarrativeMethodStore
+from catalog_test_util import CatalogTestUtil
 
 
 # tests all the basic get methods
 class CoreRegistrationTest(unittest.TestCase):
-
-
     # assumes no developers have been added yet
     def test_full_module_lifecycle(self):
 
@@ -58,8 +52,8 @@ class CoreRegistrationTest(unittest.TestCase):
         # check getting specific lines
         parsed_log_subset = self.catalog.get_parsed_build_log(self.cUtil.anonymous_ctx(),
                             {
-                                'registration_id':registration_id, 
-                                'first_n':5 
+                                'registration_id':registration_id,
+                                'first_n':5
                             })[0]
         self.assertEqual(len(parsed_log_subset['log']),5)
         self.assertEqual(parsed_log['log'][0],parsed_log_subset['log'][0])
@@ -70,8 +64,8 @@ class CoreRegistrationTest(unittest.TestCase):
 
         parsed_log_subset = self.catalog.get_parsed_build_log(self.cUtil.anonymous_ctx(),
                             {
-                                'registration_id':registration_id, 
-                                'last_n':5 
+                                'registration_id':registration_id,
+                                'last_n':5
                             })[0]
         self.assertEqual(len(parsed_log_subset['log']),5)
         self.assertEqual(parsed_log['log'][-1],parsed_log_subset['log'][4])
@@ -82,9 +76,9 @@ class CoreRegistrationTest(unittest.TestCase):
 
         parsed_log_subset = self.catalog.get_parsed_build_log(self.cUtil.anonymous_ctx(),
                             {
-                                'registration_id':registration_id, 
+                                'registration_id':registration_id,
                                 'skip':4,
-                                'limit':2 
+                                'limit':2
                             })[0]
         self.assertEqual(len(parsed_log_subset['log']),2)
         self.assertEqual(parsed_log['log'][4],parsed_log_subset['log'][0])
@@ -359,7 +353,7 @@ class CoreRegistrationTest(unittest.TestCase):
             'Cannot request release - beta version is identical to released version.')
 
 
-        # 10) migrate dev to beta again, release it.  Should work. 
+        # 10) migrate dev to beta again, release it.  Should work.
         self.catalog.push_dev_to_beta(self.cUtil.user_ctx(),{'module_name':module_name})
         self.catalog.request_release(self.cUtil.user_ctx(),{'module_name':info['module_name']})
         self.catalog.review_release_request(self.cUtil.admin_ctx(),
@@ -437,8 +431,9 @@ class CoreRegistrationTest(unittest.TestCase):
         with self.assertRaises(ValueError) as e:
             self.catalog.request_release(self.cUtil.user_ctx(),{'module_name':info['module_name']})
         self.assertEqual(str(e.exception),
-            'Cannot request release - beta semantic version (0.0.1) must be greater than the released semantic version 0.0.2, as determined by http://semver.org')
-
+                         'Cannot request release - beta semantic version '
+                         '(0.0.1) must be greater than the released semantic '
+                         'version 0.0.2, as determined by http://semver.org')
 
         # Register with a proper version number and indicate it is a dynamic service now
         githash6 = '026fd0421a03f12c78fb5dbffbbaa04a254fcbe7' # branch simple_good_repo
@@ -474,27 +469,12 @@ class CoreRegistrationTest(unittest.TestCase):
         # TODO test method store to be sure we can get old method specs by commit hash
         #pprint(info)
 
-
     def validate_basic_test_module_info_fields(self,info,giturl,module_name,owners):
         self.assertEqual(info['git_url'],giturl)
         self.assertEqual(info['module_name'],module_name)
         self.assertEqual(info['owners'],owners)
         self.assertEqual(info['language'],'python')
         self.assertEqual(info['description'],'A test module')
-
-#{'beta': None,
-# 'description': u'A test module',
-# 'dev': {u'git_commit_hash': u'4ada53f318f69a38276e82d0e841e685aa0c2362',
-#         u'git_commit_message': u'added some basic things',
-#         u'narrative_methods': [u'test_method_1'],
-#         u'timestamp': 1445888811416L,
-#         u'version': u'0.0.1'},
-# 'git_url': u'https://github.com/kbaseIncubator/catalog_test_module',
-# 'language': u'python',
-# 'module_name': u'CatalogTestModule',
-# 'owners': [u'wstester1'],
-# 'release': None}
-
 
     def test_module_with_bad_spec(self):
 
@@ -518,8 +498,6 @@ class CoreRegistrationTest(unittest.TestCase):
         self.assertTrue(log is not None)
         self.assertTrue('param0_that_is_not_defined_in_yaml' in log)
 
-
-
     def test_active_inactive_remove_module(self):
 
         # we cannot delete modules unles we are an admin user
@@ -533,7 +511,7 @@ class CoreRegistrationTest(unittest.TestCase):
 
         # this should work: register a repo, make sure it appears
         giturl = self.cUtil.get_test_repo_2()
-        githash = 'a2b66a4668548bbabc54ee937ac91f9237874a96' # branch simple_good_repo2 
+        githash = 'a2b66a4668548bbabc54ee937ac91f9237874a96' # branch simple_good_repo2
 
         registration_id = self.catalog.register_repo(self.cUtil.user_ctx(),
             {'git_url':giturl, 'git_commit_hash':githash})[0]
@@ -697,7 +675,7 @@ class CoreRegistrationTest(unittest.TestCase):
 
         cls.nms = NarrativeMethodStore(cls.cUtil.getCatalogConfig()['nms-url'])
 
-        
+
 
     @classmethod
     def tearDownClass(cls):

@@ -1,26 +1,18 @@
-
-
-import warnings
-import threading
-import time
-import copy
-import os
-import random
-import semantic_version
-import re
-import uuid
 import codecs
+import os
+import threading
+import uuid
+import warnings
+from datetime import datetime
+from urlparse import urlparse
+
+import semantic_version
 
 import biokbase.catalog.version
 from biokbase.catalog.Client import Catalog
-
-from pprint import pprint
-from datetime import datetime
-from urlparse import urlparse
 from biokbase.catalog.db import MongoCatalogDBI
 from biokbase.catalog.registrar import Registrar
 from biokbase.narrative_method_store.client import NarrativeMethodStore
-
 
 
 class CatalogController:
