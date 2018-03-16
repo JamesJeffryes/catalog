@@ -4,7 +4,7 @@ import threading
 import uuid
 import warnings
 from datetime import datetime
-from urlparse import urlparse
+from urllib.parse import urlparse
 
 import semantic_version
 
@@ -66,16 +66,16 @@ class CatalogController:
         if 'docker-base-url' not in config: # pragma: no cover
             raise ValueError('"docker-base-url" config variable must be defined to start a CatalogController!')
         self.docker_base_url = config['docker-base-url']
-        print('Docker base url config = '+ self.docker_base_url)
+        print(('Docker base url config = '+ self.docker_base_url))
 
         if 'docker-registry-host' not in config: # pragma: no cover
             raise ValueError('"docker-registry-host" config variable must be defined to start a CatalogController!')
         self.docker_registry_host = config['docker-registry-host']
-        print('Docker registry host config = '+ self.docker_registry_host)
+        print(('Docker registry host config = '+ self.docker_registry_host))
         
         self.docker_push_allow_insecure = None # none should just set this to default?
         if 'docker-push-allow-insecure' in config:
-            print('Docker docker-push-allow-insecure = '+ config['docker-push-allow-insecure'])
+            print(('Docker docker-push-allow-insecure = '+ config['docker-push-allow-insecure']))
             if config['docker-push-allow-insecure'].strip() == "1": # pragma: no cover
                 self.docker_push_allow_insecure = True
                 print('WARNING!! - Docker push is set to allow insecure connections.  This should never be on in production.')
@@ -697,7 +697,7 @@ class CatalogController:
         if 'module_names' in params:
             if isinstance(params['module_names'], list):
                 for m in params['module_names']:
-                    if not isinstance(m,basestring):
+                    if not isinstance(m,str):
                         raise ValueError('module_names parameter field must be a list of module names (list of strings)')
                 module_names = params['module_names']
             else:
@@ -708,7 +708,7 @@ class CatalogController:
         else:
             release_tag = 'release'
         if 'release_tag' in params:
-            if not isinstance(params['release_tag'],basestring):
+            if not isinstance(params['release_tag'],str):
                 raise ValueError('release_tag parameter field must be a string (release | beta | dev)')
             if not params['release_tag'] in ['dev','beta','release']:
                 raise ValueError('release_tag parameter field must be either: "release" | "beta" | "dev"')
@@ -736,20 +736,20 @@ class CatalogController:
             # must have module_name and function_id
             if 'module_name' not in f:
                 raise ValueError('All functions specified must specify a "module_name"')
-            if not isinstance(f['module_name'],basestring):
+            if not isinstance(f['module_name'],str):
                 raise ValueError('"module_name" in function specification must be a string')
             if 'function_id' not in f:
                 raise ValueError('All functions specified must specify a "function_id"')
-            if not isinstance(f['function_id'],basestring):
+            if not isinstance(f['function_id'],str):
                 raise ValueError('"function_id" in function specification must be a string')
             # optionally, release tag or git_commit_hash must be strings
             if 'release_tag' in f:
-                if not isinstance(f['release_tag'],basestring):
+                if not isinstance(f['release_tag'],str):
                     raise ValueError('"release_tag" in function specification must be a string')
                 if f['release_tag'] not in ['dev','beta','release']:
                     raise ValueError('"release_tag" must be one of dev | beta | release')
             if 'git_commit_hash' in f:
-                if not isinstance(f['git_commit_hash'],basestring):
+                if not isinstance(f['git_commit_hash'],str):
                     raise ValueError('"git_commit_hash" in function specification must be a string')
 
         return self.db.get_local_function_spec(params['functions'])
@@ -1203,13 +1203,13 @@ class CatalogController:
 
         if 'module_name' not in config:
             raise ValueError('module_name parameter field is required')
-        if not isinstance(config['module_name'],basestring):
+        if not isinstance(config['module_name'],str):
             raise ValueError('module_name parameter field must be a string')
         record['module_name'] = config['module_name'].strip()
 
         if 'function_name' not in config:
             raise ValueError('function_name parameter field is required')
-        if not isinstance(config['function_name'],basestring):
+        if not isinstance(config['function_name'],str):
             raise ValueError('function_name parameter field must be a string')
         record['function_name'] = config['function_name'].strip()
 
@@ -1219,7 +1219,7 @@ class CatalogController:
             raise ValueError('client_groups parameter field must be a list')
 
         for c in config['client_groups']:
-            if not isinstance(c,basestring):
+            if not isinstance(c,str):
                 raise ValueError('client_groups must be a list of strings') 
         record['client_groups'] = config['client_groups']
 
@@ -1236,13 +1236,13 @@ class CatalogController:
 
         if 'module_name' not in config:
             raise ValueError('module_name parameter field is required')
-        if not isinstance(config['module_name'],basestring):
+        if not isinstance(config['module_name'],str):
             raise ValueError('module_name parameter field must be a string')
         selection['module_name'] = config['module_name'].strip()
 
         if 'function_name' not in config:
             raise ValueError('function_name parameter field is required')
-        if not isinstance(config['function_name'],basestring):
+        if not isinstance(config['function_name'],str):
             raise ValueError('function_name parameter field must be a string')
         selection['function_name'] = config['function_name'].strip()
 
@@ -1254,12 +1254,12 @@ class CatalogController:
         processed_filter = {}
         if filter:
             if 'module_name' in filter:
-                if not isinstance(filter['module_name'],basestring):
+                if not isinstance(filter['module_name'],str):
                     raise ValueError('module_name parameter field must be a string')
                 processed_filter['module_name'] = filter['module_name'].strip()
 
             if 'function_name' in filter:
-                if not isinstance(filter['function_name'],basestring):
+                if not isinstance(filter['function_name'],str):
                     raise ValueError('function_name parameter field must be a string')
                 processed_filter['function_name'] = filter['function_name'].strip()
 
@@ -1297,19 +1297,19 @@ class CatalogController:
 
         if 'module_name' not in config:
             raise ValueError('module_name parameter field is required')
-        if not isinstance(config['module_name'],basestring):
+        if not isinstance(config['module_name'],str):
             raise ValueError('module_name parameter field must be a string')
         record['module_name'] = config['module_name'].strip()
 
         if 'function_name' not in config:
             raise ValueError('function_name parameter field is required')
-        if not isinstance(config['function_name'],basestring):
+        if not isinstance(config['function_name'],str):
             raise ValueError('function_name parameter field must be a string')
         record['function_name'] = config['function_name'].strip()
 
         if 'client_group' not in config:
             raise ValueError('client_group parameter field is required')
-        if not isinstance(config['client_group'],basestring):
+        if not isinstance(config['client_group'],str):
             raise ValueError('client_group parameter field must be a string')
         record['client_group'] = config['client_group'].strip()
 
@@ -1323,19 +1323,19 @@ class CatalogController:
             vm = {}
             if 'host_dir' not in v:
                 raise ValueError('host_dir parameter field is required in all volume_mount configurations')
-            if not isinstance(v['host_dir'],basestring):
+            if not isinstance(v['host_dir'],str):
                 raise ValueError('host_dir parameter field in volume_mount list must be a string')
             vm['host_dir'] = v['host_dir'].strip()
 
             if 'container_dir' not in v:
                 raise ValueError('container_dir parameter field is required in all volume_mount configurations')
-            if not isinstance(v['container_dir'],basestring):
+            if not isinstance(v['container_dir'],str):
                 raise ValueError('container_dir parameter field in volume_mount list must be a string')
             vm['container_dir'] = v['container_dir'].strip()
 
             if 'read_only' not in v:
                 raise ValueError('read_only parameter field is required in all volume_mount configurations')
-            if not isinstance(str(v['read_only']),basestring):
+            if not isinstance(str(v['read_only']),str):
                 raise ValueError('read_only parameter field in volume_mount list must be either 1 (true) or 0 (false)')
 
             if str(v['read_only']) not in ['0', '1']:
@@ -1361,19 +1361,19 @@ class CatalogController:
 
         if 'module_name' not in config:
             raise ValueError('module_name parameter field is required')
-        if not isinstance(config['module_name'],basestring):
+        if not isinstance(config['module_name'],str):
             raise ValueError('module_name parameter field must be a string')
         selection['module_name'] = config['module_name'].strip()
 
         if 'function_name' not in config:
             raise ValueError('function_name parameter field is required')
-        if not isinstance(config['function_name'],basestring):
+        if not isinstance(config['function_name'],str):
             raise ValueError('function_name parameter field must be a string')
         selection['function_name'] = config['function_name'].strip()
 
         if 'client_group' not in config:
             raise ValueError('client_group parameter field is required')
-        if not isinstance(config['client_group'],basestring):
+        if not isinstance(config['client_group'],str):
             raise ValueError('client_group parameter field must be a string')
         selection['client_group'] = config['client_group'].strip()
 
@@ -1390,17 +1390,17 @@ class CatalogController:
         processed_filter = {}
         if filter:
             if 'module_name' in filter:
-                if not isinstance(filter['module_name'],basestring):
+                if not isinstance(filter['module_name'],str):
                     raise ValueError('module_name parameter field must be a string')
                 processed_filter['module_name'] = filter['module_name'].strip()
 
             if 'function_name' in filter:
-                if not isinstance(filter['function_name'],basestring):
+                if not isinstance(filter['function_name'],str):
                     raise ValueError('function_name parameter field must be a string')
                 processed_filter['function_name'] = filter['function_name'].strip()
 
             if 'client_group' in filter:
-                if not isinstance(filter['client_group'],basestring):
+                if not isinstance(filter['client_group'],str):
                     raise ValueError('client_group parameter field must be a string')
                 processed_filter['client_group'] = filter['client_group'].strip()
 
@@ -1445,10 +1445,10 @@ class CatalogController:
         if 'module_name' not in params:
             raise ValueError('module_name parameter field is required')
         module_name = params['module_name']
-        if not isinstance(module_name, basestring):
+        if not isinstance(module_name, str):
             raise ValueError('module_name parameter field must be a string')
         version_filter = params.get('version')
-        if version_filter and not isinstance(version_filter, basestring):
+        if version_filter and not isinstance(version_filter, str):
             raise ValueError('version parameter field must be a string')
         load_all_versions = params.get('load_all_versions')
         secure_param_list = self.db.get_secure_config_params(module_name)

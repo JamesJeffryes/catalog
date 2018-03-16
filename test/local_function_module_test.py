@@ -1,4 +1,4 @@
-from __future__ import print_function
+
 
 import unittest
 from time import time, sleep
@@ -55,43 +55,43 @@ class LocalFunctionModuleTest(unittest.TestCase):
         specs = self.catalog.get_local_function_details(self.cUtil.user_ctx(), {'functions':[
             {'module_name':'GenomeTopowerpointConverter', 'function_id':'powerpoint_to_genome'}]})[0]
 
-        self.assertEquals(len(specs),1)
+        self.assertEqual(len(specs),1)
         info = specs[0]['info']
-        self.assertEquals(info['function_id'],'powerpoint_to_genome')
-        self.assertEquals(info['git_commit_hash'],'a01e1a20b9c504a0136c75323b00b1cd4c7f7970')
-        self.assertEquals(info['module_name'],'GenomeToPowerpointConverter')
-        self.assertEquals(info['name'],'Powerpoint to Genome')
-        self.assertEquals(info['release_tag'],['dev'])
+        self.assertEqual(info['function_id'],'powerpoint_to_genome')
+        self.assertEqual(info['git_commit_hash'],'a01e1a20b9c504a0136c75323b00b1cd4c7f7970')
+        self.assertEqual(info['module_name'],'GenomeToPowerpointConverter')
+        self.assertEqual(info['name'],'Powerpoint to Genome')
+        self.assertEqual(info['release_tag'],['dev'])
         self.assertIsNotNone(info['kidl'])
         self.assertIsNotNone(info['kidl']['parse'])
-        self.assertEquals(specs[0]['long_description'],'<b> some html here </b> <br><br> more here!')
+        self.assertEqual(specs[0]['long_description'],'<b> some html here </b> <br><br> more here!')
 
 
         # trying to get the release tag should not return anything
         specs = self.catalog.get_local_function_details(self.cUtil.user_ctx(), {'functions':[
             {'module_name':'GenomeTopowerpointConverter', 'function_id':'powerpoint_to_genome', 'release_tag':'release'}]})[0]
-        self.assertEquals(len(specs),0)
+        self.assertEqual(len(specs),0)
         specs = self.catalog.get_local_function_details(self.cUtil.user_ctx(), {'functions':[
             {'module_name':'GenomeTopowerpointConverter', 'function_id':'powerpoint_to_genome', 'release_tag':'beta'}]})[0]
-        self.assertEquals(len(specs),0)
+        self.assertEqual(len(specs),0)
 
         # dev should work, and if we want it twice, then give it twice (right behavior?)
         specs = self.catalog.get_local_function_details(self.cUtil.user_ctx(), {'functions':[
             {'module_name':'GenomeTopowerpointConverter', 'function_id':'powerpoint_to_genome', 'release_tag':'dev'},
             {'module_name':'GenomeTopowerpointConverter', 'function_id':'powerpoint_to_genome', 'release_tag':'dev'},
             ]})[0]
-        self.assertEquals(len(specs),2)
+        self.assertEqual(len(specs),2)
 
         # listing released/beta functions should return nothing
         func_list = self.catalog.list_local_functions(self.cUtil.user_ctx(),
                             {'release_tag':'release'})[0]
-        self.assertEquals(len(func_list),0)
+        self.assertEqual(len(func_list),0)
         func_list = self.catalog.list_local_functions(self.cUtil.user_ctx(),
                             {'release_tag':'beta'})[0]
-        self.assertEquals(len(func_list),0)
+        self.assertEqual(len(func_list),0)
         func_list = self.catalog.list_local_functions(self.cUtil.user_ctx(),
                             {})[0]
-        self.assertEquals(len(func_list),0)
+        self.assertEqual(len(func_list),0)
         func_list = self.catalog.list_local_functions(self.cUtil.user_ctx(),
                             {'module_names':['GenomeTopowerpoIntConverter']})[0]
         self.assertEqual(len(func_list),0)
@@ -99,7 +99,7 @@ class LocalFunctionModuleTest(unittest.TestCase):
         # but listing dev should return something
         func_list = self.catalog.list_local_functions(self.cUtil.user_ctx(),
                             {'release_tag':'dev'})[0]
-        self.assertEquals(len(func_list),2)
+        self.assertEqual(len(func_list),2)
         func_list = self.catalog.list_local_functions(self.cUtil.user_ctx(),
                             {'release_tag':'dev', 'module_names':['GenomeTopowerpoIntConverter']})[0]
         self.assertEqual(len(func_list),2)
@@ -110,31 +110,31 @@ class LocalFunctionModuleTest(unittest.TestCase):
         specs = self.catalog.get_local_function_details(self.cUtil.user_ctx(), {'functions':[
             {'module_name':'GenomeTopowerpointConverter', 'function_id':'powerpoint_to_genome'}]})[0]
 
-        self.assertEquals(len(specs),1)
+        self.assertEqual(len(specs),1)
         info = specs[0]['info']
-        self.assertEquals(info['function_id'],'powerpoint_to_genome')
-        self.assertEquals(info['git_commit_hash'],'a01e1a20b9c504a0136c75323b00b1cd4c7f7970')
-        self.assertEquals(info['module_name'],'GenomeToPowerpointConverter')
-        self.assertEquals(info['name'],'Powerpoint to Genome')
-        self.assertEquals(info['release_tag'],['beta', 'dev'])
+        self.assertEqual(info['function_id'],'powerpoint_to_genome')
+        self.assertEqual(info['git_commit_hash'],'a01e1a20b9c504a0136c75323b00b1cd4c7f7970')
+        self.assertEqual(info['module_name'],'GenomeToPowerpointConverter')
+        self.assertEqual(info['name'],'Powerpoint to Genome')
+        self.assertEqual(info['release_tag'],['beta', 'dev'])
         self.assertIsNotNone(info['kidl'])
         self.assertIsNotNone(info['kidl']['parse'])
-        self.assertEquals(specs[0]['long_description'],'<b> some html here </b> <br><br> more here!')
+        self.assertEqual(specs[0]['long_description'],'<b> some html here </b> <br><br> more here!')
 
         # test out some additional ways to get the results
         specs = self.catalog.get_local_function_details(self.cUtil.user_ctx(), {'functions':[
             {'module_name':'GenomeTopowerpointConverter', 'function_id':'powerpoint_to_genome', 'release_tag':'release'}]})[0]
-        self.assertEquals(len(specs),0)
+        self.assertEqual(len(specs),0)
         specs = self.catalog.get_local_function_details(self.cUtil.user_ctx(), {'functions':[
             {'module_name':'GenomeTopowerpointConverter', 'function_id':'powerpoint_to_genome', 'release_tag':'beta'}]})[0]
-        self.assertEquals(len(specs),1)
+        self.assertEqual(len(specs),1)
 
         # dev should work, and if we want it twice, then give it twice (right behavior?)
         specs = self.catalog.get_local_function_details(self.cUtil.user_ctx(), {'functions':[
             {'module_name':'GenomeTopowerpointConverter', 'function_id':'powerpoint_to_genome', 'release_tag':'dev'},
             {'module_name':'GenomeTopowerpointConverter', 'function_id':'powerpoint_to_genome', 'release_tag':'beta'},
             ]})[0]
-        self.assertEquals(len(specs),2)
+        self.assertEqual(len(specs),2)
 
         # release the thing
         self.catalog.request_release(self.cUtil.user_ctx(),{'module_name':'GenomeToPowerpointConverter'})
@@ -162,22 +162,22 @@ class LocalFunctionModuleTest(unittest.TestCase):
         specs = self.catalog.get_local_function_details(self.cUtil.user_ctx(), {'functions':[
             {'module_name':'GenomeTopowerpointConverter','function_id': 'powerpoint_to_genome', 'git_commit_hash':'a01e1a20b9c504a0136c75323b00b1cd4c7f7970'}]})[0]
 
-        self.assertEquals(len(specs),1)
+        self.assertEqual(len(specs),1)
         info = specs[0]['info']
-        self.assertEquals(info['function_id'],'powerpoint_to_genome')
-        self.assertEquals(info['git_commit_hash'],'a01e1a20b9c504a0136c75323b00b1cd4c7f7970')
-        self.assertEquals(info['module_name'],'GenomeToPowerpointConverter')
-        self.assertEquals(info['name'],'Powerpoint to Genome')
-        self.assertEquals(info['release_tag'],['release','beta', 'dev'])
+        self.assertEqual(info['function_id'],'powerpoint_to_genome')
+        self.assertEqual(info['git_commit_hash'],'a01e1a20b9c504a0136c75323b00b1cd4c7f7970')
+        self.assertEqual(info['module_name'],'GenomeToPowerpointConverter')
+        self.assertEqual(info['name'],'Powerpoint to Genome')
+        self.assertEqual(info['release_tag'],['release','beta', 'dev'])
         self.assertIsNotNone(info['kidl'])
         self.assertIsNotNone(info['kidl']['parse'])
-        self.assertEquals(specs[0]['long_description'],'<b> some html here </b> <br><br> more here!')
+        self.assertEqual(specs[0]['long_description'],'<b> some html here </b> <br><br> more here!')
 
 
         # handle some other cases where we expect to get nothing
         specs = self.catalog.get_local_function_details(self.cUtil.user_ctx(), {'functions':[
             {'module_name':'GenomeTopowerpointConverter','function_id': 'powerpoint_to_genome', 'git_commit_hash':'not a hash'}]})[0]
-        self.assertEquals(len(specs),0)
+        self.assertEqual(len(specs),0)
 
         with self.assertRaises(ValueError) as e:
             specs = self.catalog.get_local_function_details(self.cUtil.user_ctx(), {'functions':[
@@ -187,11 +187,11 @@ class LocalFunctionModuleTest(unittest.TestCase):
 
         specs = self.catalog.get_local_function_details(self.cUtil.user_ctx(), {'functions':[
             {'module_name':'GenomeTopowerpointConverter','function_id': 'not a function'}]})[0]
-        self.assertEquals(len(specs),0)
+        self.assertEqual(len(specs),0)
 
         specs = self.catalog.get_local_function_details(self.cUtil.user_ctx(), {'functions':[
             {'module_name':'GenomeTopowerpointConverter','function_id': 'POWERpoint_to_genome'}]})[0]
-        self.assertEquals(len(specs),0)
+        self.assertEqual(len(specs),0)
 
 
 

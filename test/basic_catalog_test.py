@@ -76,13 +76,13 @@ class BasicCatalogTest(unittest.TestCase):
         for m in default:
             module_names.append(m['module_name'])
             if m['module_name'] == 'DynamicService':
-                self.assertEquals(m['dev'],{'git_commit_hash':'b06c5f9daf603a4d206071787c3f6184000bf128'})
-                self.assertEquals(m['beta'],{'git_commit_hash':'b843888e962642d665a3b0bd701ee630c01835e6'})
-                self.assertEquals(m['release'],{'git_commit_hash':'49dc505febb8f4cccb2078c58ded0de3320534d7'})
-                self.assertEquals(sorted(m['owners']),['rsutormin','wstester2'])
-                self.assertEquals(m['language'],'python')
-                self.assertEquals(m['dynamic_service'],1)
-                self.assertEquals(len(m['release_version_list']),4)
+                self.assertEqual(m['dev'],{'git_commit_hash':'b06c5f9daf603a4d206071787c3f6184000bf128'})
+                self.assertEqual(m['beta'],{'git_commit_hash':'b843888e962642d665a3b0bd701ee630c01835e6'})
+                self.assertEqual(m['release'],{'git_commit_hash':'49dc505febb8f4cccb2078c58ded0de3320534d7'})
+                self.assertEqual(sorted(m['owners']),['rsutormin','wstester2'])
+                self.assertEqual(m['language'],'python')
+                self.assertEqual(m['dynamic_service'],1)
+                self.assertEqual(len(m['release_version_list']),4)
                 found_dynamic_service = True
 
         self.assertTrue(found_dynamic_service)

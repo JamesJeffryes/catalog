@@ -1,7 +1,7 @@
 import datetime
 import json
 import os
-from ConfigParser import ConfigParser
+from configparser import ConfigParser
 from pprint import pformat
 
 from docker import Client as DockerAPIClient
@@ -226,7 +226,7 @@ class CatalogTestUtil:
         # remove testing images
         for image in self.dockerclient.images(
                 name=self.catalog_cfg['docker-registry-host']+"/kbase"):
-            print image
+            print(image)
             self.dockerclient.remove_image(image['Id'])
 
         # make sure NMS is clean after each test

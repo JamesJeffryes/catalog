@@ -22,7 +22,7 @@ class Catalog:
     ######################################### noqa
     VERSION = "0.0.1"
     GIT_URL = "https://github.com/JamesJeffryes/catalog.git"
-    GIT_COMMIT_HASH = "4fa904121eaec7f5af1f7322363e3adbaf1d523d"
+    GIT_COMMIT_HASH = "c2c51f7551517ff38c01f267dd78dca9ceb1da5b"
 
     #BEGIN_CLASS_HEADER
     #END_CLASS_HEADER
@@ -34,9 +34,9 @@ class Catalog:
         print('Starting the Catalog service.  Service configuration:')
         for c in config:
             if c == 'nms-admin-psswd' or c == 'nms-admin-token':
-                print('  '+c+'=****')
+                print(('  '+c+'=****'))
                 continue
-            print('  '+c+'='+config[c])
+            print(('  '+c+'='+config[c]))
         print('Initializing the Catalog Controller...')
         self.cc = CatalogController(config)
         print('Initialization complete.')
@@ -56,9 +56,9 @@ class Catalog:
         #END version
 
         # At some point might do deeper type checking...
-        if not isinstance(version, basestring):
+        if not isinstance(version, str):
             raise ValueError('Method version return value ' +
-                             'version is not type basestring as required.')
+                             'version is not type str as required.')
         # return the results
         return [version]
 
@@ -109,9 +109,9 @@ class Catalog:
         #END register_repo
 
         # At some point might do deeper type checking...
-        if not isinstance(registration_id, basestring):
+        if not isinstance(registration_id, str):
             raise ValueError('Method register_repo return value ' +
-                             'registration_id is not type basestring as required.')
+                             'registration_id is not type str as required.')
         # return the results
         return [registration_id]
 
@@ -876,9 +876,9 @@ class Catalog:
         #END get_build_log
 
         # At some point might do deeper type checking...
-        if not isinstance(returnVal, basestring):
+        if not isinstance(returnVal, str):
             raise ValueError('Method get_build_log return value ' +
-                             'returnVal is not type basestring as required.')
+                             'returnVal is not type str as required.')
         # return the results
         return [returnVal]
 

@@ -1274,7 +1274,7 @@ class MongoCatalogDBI:
     def check_db_schema(self):
 
         db_version = self.get_db_version()
-        print('db_version=' + str(db_version))
+        print(('db_version=' + str(db_version)))
 
         if db_version<2:
             print('Updating DB schema to V2...')
@@ -1405,7 +1405,7 @@ class MongoCatalogDBI:
                 try:
                     self.module_versions.insert(rVer)
                 except:
-                    print(' - Warning - '+rVer['module_name'] + '.' + rVer['git_commit_hash'] + ' already inserted, skipping.')
+                    print((' - Warning - '+rVer['module_name'] + '.' + rVer['git_commit_hash'] + ' already inserted, skipping.'))
                 new_release_version_list.append({
                     'git_commit_hash':rVer['git_commit_hash']
                 })
@@ -1424,7 +1424,7 @@ class MongoCatalogDBI:
                             self.module_versions.insert(modVer)
                         except Exception as e:
                             # we expect this to happen for all 'release' tags and if, say, a version still tagged as dev/beta has been released
-                            print(' - Warning - '+tag+ ' ver of ' + modVer['module_name'] + '.' + modVer['git_commit_hash'] + ' already inserted, skipping.')
+                            print((' - Warning - '+tag+ ' ver of ' + modVer['module_name'] + '.' + modVer['git_commit_hash'] + ' already inserted, skipping.'))
                         self.modules.update(
                             {'_id':m['_id']},
                             {'$set':{ 'current_versions.'+tag: {'git_commit_hash':modVer['git_commit_hash']} } }
@@ -1434,7 +1434,7 @@ class MongoCatalogDBI:
                             {'_id':m['_id']},
                             {'$set':{ 'current_versions.'+tag: None } }
                         )
-            print(' -> completed '+m['module_name'])
+            print((' -> completed '+m['module_name']))
 
     def prepare_version_doc_for_db_2_to_3_update(self, version, module):
         version['module_name'] = module['module_name']

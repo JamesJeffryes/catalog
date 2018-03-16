@@ -66,7 +66,7 @@ class LocalFunctionReader:
                                  'error': "Local Function specification missing required field 'name'"})
                             continue
                         if not isinstance(spec_parse['name'],
-                                          basestring):  # need to update for Python3
+                                          str):  # need to update for Python3
                             report['functions_errored'].append(
                                 {'filename': spec,
                                  'error': "Local Function specification field 'name' must be a string"})
@@ -78,7 +78,7 @@ class LocalFunctionReader:
                                  'error': "Local Function specification missing required field 'short_description'"})
                             continue
                         if not isinstance(spec_parse['short_description'],
-                                          basestring):
+                                          str):
                             report['functions_errored'].append(
                                 {'filename': spec,
                                  'error': "Local Function specification field 'short_description' must be a string"})
@@ -249,7 +249,7 @@ class LocalFunctionReader:
         if not isinstance(things, list):
             return False
         for t in things:
-            if not isinstance(t, basestring):
+            if not isinstance(t, str):
                 return False
         return True
 
@@ -282,7 +282,7 @@ class LocalFunctionReader:
         return
 
     def extract_lf_names(self):
-        return self.function_specs.keys()
+        return list(self.function_specs.keys())
 
     def extract_lf_records(self):
-        return self.function_specs.values()
+        return list(self.function_specs.values())

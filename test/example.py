@@ -6,14 +6,14 @@ from pprint import pprint
 catalog = Catalog('http://localhost:5000',user_id='wstester1',password='Catfasta11')
 catalogAdmin = Catalog('http://localhost:5000',user_id='wstester2',password='Catfasta22')
 
-print(catalog.version())
+print((catalog.version()))
 
 
 
 #catalog.push_dev_to_beta({'module_name':'onerepotest'})
 #sys.exit()
 
-print(catalog.register_repo({'git_url':'https://github.com/kbaseIncubator/onerepotest'}))
+print((catalog.register_repo({'git_url':'https://github.com/kbaseIncubator/onerepotest'})))
 
 while True:
     state = catalog.get_module_state({'git_url':'https://github.com/kbaseIncubator/onerepotest'})
@@ -29,7 +29,7 @@ sys.exit()
 selection = {
                 'git_url':'https://github.com/kbaseIncubator/contigcount'
             }
-print(catalog.get_module_state(selection))
+print((catalog.get_module_state(selection)))
 
 
 set_registration_params = {
@@ -38,10 +38,10 @@ set_registration_params = {
             }
 catalogAdmin.set_registration_state(set_registration_params)
 
-print(catalog.get_module_state(selection))
+print((catalog.get_module_state(selection)))
 
-print(catalog.is_registered(selection))
-print(catalog.is_registered({}))
+print((catalog.is_registered(selection)))
+print((catalog.is_registered({})))
 
 print("===== List Modules:")
 pprint(catalog.list_basic_module_info({"include_disabled":0}))

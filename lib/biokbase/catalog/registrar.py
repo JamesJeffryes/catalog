@@ -8,7 +8,7 @@ import shutil
 import subprocess
 import time
 import traceback
-from urlparse import urlparse
+from urllib.parse import urlparse
 
 import semantic_version
 import yaml
@@ -81,12 +81,14 @@ class Registrar:
             self.log('git clone ' + self.git_url)
             subprocess.check_call( ['git','clone',self.git_url, basedir ] )
             # try to get hash from repo
-            git_commit_hash = str( subprocess.check_output ( ['git','log', '--pretty=%H', '-n', '1' ], cwd=basedir ) ).rstrip()
+            git_commit_hash = subprocess.check_output(
+                ['git','log', '--pretty=%H', '-n', '1' ], cwd=basedir
+            ).decode("utf-8").rstrip()
             self.log('current commit hash at HEAD:' + git_commit_hash)
             if 'git_commit_hash' in self.params:
                 if self.params['git_commit_hash']:
                     self.log('git checkout ' + self.params['git_commit_hash'].strip())
-                    subprocess.check_call ( ['git', 'checkout', '--quiet', self.params['git_commit_hash'] ], cwd=basedir )
+                    subprocess.check_call(['git', 'checkout', '--quiet', self.params['git_commit_hash']], cwd=basedir)
                     git_commit_hash = self.params['git_commit_hash'].strip()
 
             # check if this was a git_commit_hash that was already released- if so, we abort for now (we could just update the dev tag in the future)
@@ -104,18 +106,6 @@ class Registrar:
             # 2 - sanity check (things parse, files exist, module_name matches, etc)
             self.set_build_step('reading files and performing basic checks')
             self.sanity_checks_and_parse(basedir, git_commit_hash)
-
-
-            ##############################
-            # 2.5 - dealing with git releases .git/config.lock, if it still exists after 5s then kill it
-###### should no longer need this after switching to subprocess
-#            git_config_lock_file = os.path.join(basedir, ".git", "config.lock")
-#            if os.path.exists(git_config_lock_file):
-#                self.log('.git/config.lock exists, waiting 5s for it to release')
-#                time.sleep(5)
-#                if os.path.exists(git_config_lock_file):
-#                    self.log('.git/config.lock file still there, we are just going to delete it....')
-#                    os.remove(git_config_lock_file)
 
             ##############################
             # 3 docker build - in progress
@@ -309,8 +299,12 @@ class Registrar:
 
     def update_the_catalog(self, basedir, ref_data_folder, ref_data_ver, compilation_report):
         # get the basic info that we need
-        commit_hash = str( subprocess.check_output ( ['git','log', '--pretty=%H', '-n', '1' ], cwd=basedir ) ).rstrip()
-        commit_message = str( subprocess.check_output ( ['git','log', '--pretty=%B', '-n', '1' ], cwd=basedir ) ).rstrip()
+        commit_hash = subprocess.check_output(
+            ['git','log', '--pretty=%H', '-n', '1' ], cwd=basedir
+        ).decode("utf-8").rstrip()
+        commit_message = subprocess.check_output(
+            ['git','log', '--pretty=%B', '-n', '1' ], cwd=basedir
+        ).decode("utf-8").rstrip()
 
         module_name = self.get_required_field_as_string(self.kb_yaml,'module-name')
         module_description = self.get_required_field_as_string(self.kb_yaml,'module-description')
@@ -563,7 +557,7 @@ class Registrar:
 
         # to do: examine stream to determine success/failure of build
         if self.docker_push_allow_insecure:
-            print("Docker push: insecure_registry: "+ str(self.docker_push_allow_insecure))
+            print(("Docker push: insecure_registry: "+ str(self.docker_push_allow_insecure)))
         else:
             print("Docker push: insecure_registry: None")
         for lines in docker_client.push(image, tag=tag, stream=True, insecure_registry = self.docker_push_allow_insecure):
@@ -696,7 +690,7 @@ class Registrar:
             else:
                 with codecs.open(report_file, 'r', 'utf-8', errors='ignore') as f:
                     return json.load(f)
-        except Exception, e:
+        except Exception as e:
             self.log("Error preparing compilation log: " + str(e))
         return None
 
