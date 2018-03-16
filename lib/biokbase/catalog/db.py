@@ -815,7 +815,7 @@ class MongoCatalogDBI:
                             'docker_img_name':m['current_versions'][tag]['docker_img_name']
 
                         })
-        return result;
+        return result
 
 
     # all released service module versions
@@ -905,7 +905,7 @@ class MongoCatalogDBI:
         found = self.favorites.find_one(favoriteAddition)
         if found:
             # already a favorite, so do nothing
-            return None;
+            return None
         # keep a timestamp
         favoriteAddition['timestamp']= timestamp
         self.favorites.insert(favoriteAddition)
@@ -919,7 +919,7 @@ class MongoCatalogDBI:
         found = self.favorites.find_one(favoriteAddition)
         if not found:
             # wasn't a favorite, so do nothing
-            return None;
+            return None
 
         result = self.favorites.remove({'_id':found['_id']})
         return self._check_update_result(result)
@@ -944,7 +944,7 @@ class MongoCatalogDBI:
         ### WARNING! If we switch to Mongo 3.x, the result object will change and this will break
 
         # setup the query
-        aggParams = None;
+        aggParams = None
         group = { 
             '$group':{
                 '_id':{
@@ -997,7 +997,7 @@ class MongoCatalogDBI:
             for g in gList:
                 for a in app_ids:
                     if g['module_name_lc'] + '/' + g['function_name'] == a:
-                        filteredGList.append(g);
+                        filteredGList.append(g)
             for g in filteredGList:
                 del[g['module_name_lc']]
             return filteredGList
@@ -1167,7 +1167,7 @@ class MongoCatalogDBI:
     def aggr_exec_stats_table(self, minTime, maxTime):
 
         # setup the query
-        aggParams = None;
+        aggParams = None
         group = {
             '$group':{
                 '_id':{
@@ -1309,7 +1309,7 @@ class MongoCatalogDBI:
         else:
             # if there is no version document, then we are DB v1
             self.update_db_version(1)
-            return 1;
+            return 1
 
     def update_db_version(self, version):
         # make sure we can't have two version documents
@@ -1391,11 +1391,11 @@ class MongoCatalogDBI:
 
             # skip modules that have not been properly registered, might want to delete these later
             if 'module_name' not in m or 'module_name_lc' not in m:
-                continue;
+                continue
 
             # skip modules that have not been properly registered, might want to delete these later
             if 'info' not in m:
-                continue;
+                continue
 
             # first migrate over all released versions and update the module document
             new_release_version_list = []

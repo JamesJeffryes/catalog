@@ -77,7 +77,7 @@ class CatalogController:
         if 'docker-push-allow-insecure' in config:
             print('Docker docker-push-allow-insecure = '+ config['docker-push-allow-insecure'])
             if config['docker-push-allow-insecure'].strip() == "1": # pragma: no cover
-                self.docker_push_allow_insecure = True;
+                self.docker_push_allow_insecure = True
                 print('WARNING!! - Docker push is set to allow insecure connections.  This should never be on in production.')
 
 
@@ -410,10 +410,10 @@ class CatalogController:
             # if timestamp or git_commit_hash is given, those need to match as well
             if 'timestamp' in params:
                 if v['timestamp'] != params['timestamp'] :
-                    return None;
+                    return None
             if 'git_commit_hash' in params:
                 if v['git_commit_hash'] != params['git_commit_hash'] :
-                    return None;
+                    return None
             return v
 
         if 'timestamp' in params:
@@ -423,7 +423,7 @@ class CatalogController:
                     v = current_version[version]
                     if 'git_commit_hash' in params:
                         if v['git_commit_hash'] != params['git_commit_hash'] :
-                            return None;
+                            return None
                     return v
             # if we get here, we have to look in full history
             details = self.db.get_module_full_details(module_name=params['module_name'], git_url=params['git_url'])
@@ -432,7 +432,7 @@ class CatalogController:
                 if v['timestamp'] == params['timestamp']:
                     if 'git_commit_hash' in params:
                         if v['git_commit_hash'] != params['git_commit_hash'] :
-                            return None;
+                            return None
                     return v
             return None
 
@@ -690,31 +690,6 @@ class CatalogController:
             final_modList.append(m)
 
         return final_modList
-
-
-
-
-#    typedef structure {
-#        string release_tag;
-#        list<string> module_name;
-#    } ListLocalFunctionParams;
-
-#    funcdef list_local_functions(ListLocalFunctionParams params) returns (list<LocalFunctionInfo> info_list);
-
-
-
-#    typedef structure {
-#        string module_name;
-#        string function_id;
-#        string release_tag;
-#        string git_commit_hash;
-#    } SelectOneLocalFunction;
-
-#    typedef structure {
-#        list<SelectOneLocalFunction> functions;
-#    } GetLocalFunctionDetails;
-
-
 
     def list_local_functions(self, params):
 
@@ -1295,8 +1270,8 @@ class CatalogController:
         app_ids = None
         if 'app_ids' in params:
             if not isinstance(params['app_ids'], list):
-                raise ValueError('app_ids parameter must be a list');
-            app_ids = [];
+                raise ValueError('app_ids parameter must be a list')
+            app_ids = []
             for a in params['app_ids']:
                 tokens = a.strip().split('/')
                 if len(tokens)==2:

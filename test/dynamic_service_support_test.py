@@ -80,7 +80,7 @@ class DynamicServiceSupportTest(unittest.TestCase):
             self.catalog.list_service_modules(self.cUtil.anonymous_ctx(),
                 {'tag':'badtag'})[0]
         self.assertEqual(str(e.exception),
-            'tag parameter must be either "dev", "beta", or "release".');
+            'tag parameter must be either "dev", "beta", or "release".')
 
 
 
@@ -91,7 +91,7 @@ class DynamicServiceSupportTest(unittest.TestCase):
             self.catalog.module_version_lookup(self.cUtil.anonymous_ctx(),
                 {})[0]
         self.assertEqual(str(e.exception),
-            'Operation failed - module/repo is not registered.');
+            'Operation failed - module/repo is not registered.')
 
         # no version given should give last released version
         ver = self.catalog.module_version_lookup(self.cUtil.anonymous_ctx(),
@@ -118,7 +118,7 @@ class DynamicServiceSupportTest(unittest.TestCase):
             ver = self.catalog.module_version_lookup(self.cUtil.anonymous_ctx(),
                 {'module_name':'DynamicService2', 'lookup':'dev'})[0]
         self.assertEqual(str(e.exception),
-            'The "dev" version is not marked as a Service Module.');
+            'The "dev" version is not marked as a Service Module.')
 
         # same thing for beta
         ver = self.catalog.module_version_lookup(self.cUtil.anonymous_ctx(),
@@ -132,7 +132,7 @@ class DynamicServiceSupportTest(unittest.TestCase):
             ver = self.catalog.module_version_lookup(self.cUtil.anonymous_ctx(),
                 {'module_name':'DynamicService', 'lookup':'beta'})[0]
         self.assertEqual(str(e.exception),
-            'The "beta" version is not marked as a Service Module.');
+            'The "beta" version is not marked as a Service Module.')
 
         # release works
         ver = self.catalog.module_version_lookup(self.cUtil.anonymous_ctx(),
@@ -157,7 +157,7 @@ class DynamicServiceSupportTest(unittest.TestCase):
             ver = self.catalog.module_version_lookup(self.cUtil.anonymous_ctx(),
                 {'module_name':'DynamicService2', 'lookup':'==1.5.1'})[0]
         self.assertEqual(str(e.exception),
-            'No suitable version matches your lookup.');
+            'No suitable version matches your lookup.')
 
         ver = self.catalog.module_version_lookup(self.cUtil.anonymous_ctx(),
                 {'module_name':'DynamicService','lookup':'>=1.0.0,<2.0.0'})[0]
@@ -212,19 +212,19 @@ class DynamicServiceSupportTest(unittest.TestCase):
             ver = self.catalog.module_version_lookup(self.cUtil.anonymous_ctx(),
                 {'module_name':'DynamicService', 'lookup':'b843888e962642d665a3b0bd701ee630c01835e6'})[0]
         self.assertEqual(str(e.exception),
-            'The "b843888e962642d665a3b0bd701ee630c01835e6" version is not marked as a Service Module.');
+            'The "b843888e962642d665a3b0bd701ee630c01835e6" version is not marked as a Service Module.')
 
         with self.assertRaises(ValueError) as e:
             ver = self.catalog.module_version_lookup(self.cUtil.anonymous_ctx(),
                 {'module_name':'DynamicService2', 'lookup':'19dc505febb8f4cccb2078c58ded0de3320534d7'})[0]
         self.assertEqual(str(e.exception),
-            'The "19dc505febb8f4cccb2078c58ded0de3320534d7" version is not marked as a Service Module.');
+            'The "19dc505febb8f4cccb2078c58ded0de3320534d7" version is not marked as a Service Module.')
 
         with self.assertRaises(ValueError) as e:
             ver = self.catalog.module_version_lookup(self.cUtil.anonymous_ctx(),
                 {'module_name':'DynamicService', 'lookup':'d6cd1e2bd19e03a81132a23b2025920577f84e37'})[0]
         self.assertEqual(str(e.exception),
-            'The "d6cd1e2bd19e03a81132a23b2025920577f84e37" version is not marked as a Service Module.');
+            'The "d6cd1e2bd19e03a81132a23b2025920577f84e37" version is not marked as a Service Module.')
 
         ver = self.catalog.module_version_lookup(self.cUtil.anonymous_ctx(),
                 {'module_name':'DynamicService', 'lookup':'d6cd1e2bd19e03a81132a23b2025920577f84e37', 'only_service_versions':0})[0]

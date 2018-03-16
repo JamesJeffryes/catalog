@@ -18,17 +18,17 @@ class BasicCatalogTest(unittest.TestCase):
         with self.assertRaises(ValueError) as e:
             self.catalog.log_exec_stats(usrCtx, {})
         self.assertEqual(str(e.exception),
-            'You do not have permission to log execution statistics.');
+            'You do not have permission to log execution statistics.')
 
         with self.assertRaises(ValueError) as e:
             self.catalog.get_exec_raw_stats(usrCtx, {})
         self.assertEqual(str(e.exception),
-            'You do not have permission to view this data.');
+            'You do not have permission to view this data.')
 
         with self.assertRaises(ValueError) as e:
             self.catalog.get_exec_aggr_table(usrCtx, {})
         self.assertEqual(str(e.exception),
-            'You do not have permission to view this data.');
+            'You do not have permission to view this data.')
 
 
     def test_stats(self):

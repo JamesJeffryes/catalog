@@ -505,7 +505,7 @@ class CoreRegistrationTest(unittest.TestCase):
             self.catalog.delete_module(self.cUtil.user_ctx(),
                 {'module_name':'registration_error'})
         self.assertEqual(str(e.exception),
-            'Only Admin users can delete modules.');
+            'Only Admin users can delete modules.')
 
         method_list = self.nms.list_methods({'tag':'dev'})
 
@@ -539,11 +539,11 @@ class CoreRegistrationTest(unittest.TestCase):
         with self.assertRaises(ValueError) as e:
             self.catalog.set_to_active(self.cUtil.user_ctx(),params)
         self.assertEqual(str(e.exception),
-            'Only Admin users can set a module to be active/inactive.');
+            'Only Admin users can set a module to be active/inactive.')
         with self.assertRaises(ValueError) as e:
             self.catalog.set_to_inactive(self.cUtil.user_ctx(),params)
         self.assertEqual(str(e.exception),
-            'Only Admin users can set a module to be active/inactive.');
+            'Only Admin users can set a module to be active/inactive.')
 
         # module should start as active, but it should be fine to set it again
         state = self.catalog.get_module_state(self.cUtil.admin_ctx(),params)[0]
@@ -584,11 +584,11 @@ class CoreRegistrationTest(unittest.TestCase):
         with self.assertRaises(ValueError) as e:
             self.catalog.set_to_active(self.cUtil.user_ctx(),params)
         self.assertEqual(str(e.exception),
-            'Only Admin users can set a module to be active/inactive.');
+            'Only Admin users can set a module to be active/inactive.')
         with self.assertRaises(ValueError) as e:
             self.catalog.set_to_inactive(self.cUtil.user_ctx(),params)
         self.assertEqual(str(e.exception),
-            'Only Admin users can set a module to be active/inactive.');
+            'Only Admin users can set a module to be active/inactive.')
 
         # make it active one more time and make sure the method specs reappear
         self.catalog.set_to_active(self.cUtil.admin_ctx(),params)
@@ -623,7 +623,7 @@ class CoreRegistrationTest(unittest.TestCase):
                 {'module_name':'onerepotest'})
         self.assertEqual(self.catalog.is_registered({},{'module_name':'onerepotest'})[0],1)
         self.assertEqual(str(e.exception),
-            'Cannot delete module that has been released.  Make it inactive instead.');
+            'Cannot delete module that has been released.  Make it inactive instead.')
         self.assertEqual(self.catalog.is_registered({},{'git_url':'https://github.com/kbaseIncubator/release_history'})[0],1)
 
         with self.assertRaises(ValueError) as e:
@@ -631,7 +631,7 @@ class CoreRegistrationTest(unittest.TestCase):
                 {'git_url':'https://github.com/kbaseIncubator/release_history'})
         self.assertEqual(self.catalog.is_registered({},{'git_url':'https://github.com/kbaseIncubator/release_history'})[0],1)
         self.assertEqual(str(e.exception),
-            'Cannot delete module that has been released.  Make it inactive instead.');
+            'Cannot delete module that has been released.  Make it inactive instead.')
 
     def test_extra_files(self):
         # (1) register the test repo

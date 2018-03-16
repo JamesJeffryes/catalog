@@ -23,7 +23,7 @@ class ClientGroupMethodsTest(unittest.TestCase):
             self.catalog.set_client_group_config(userCtx, 
                 {'module_name':'mEgaHit', 'function_name':'run_Megahit', 'client_groups':['g1']})
         self.assertEqual(str(e.exception),
-            'You do not have permission to set execution client groups.');
+            'You do not have permission to set execution client groups.')
 
         # try adding one
         self.catalog.set_client_group_config(adminCtx, 
@@ -100,74 +100,74 @@ class ClientGroupMethodsTest(unittest.TestCase):
         with self.assertRaises(ValueError) as e:
             self.catalog.set_client_group_config(adminCtx, group_config)
         self.assertEqual(str(e.exception),
-            'module_name parameter field is required');
+            'module_name parameter field is required')
 
         group_config['module_name'] = []
         with self.assertRaises(ValueError) as e:
             self.catalog.set_client_group_config(adminCtx, group_config)
         self.assertEqual(str(e.exception),
-            'module_name parameter field must be a string');
+            'module_name parameter field must be a string')
         group_config['module_name'] = 'Tester2'
 
         with self.assertRaises(ValueError) as e:
             self.catalog.set_client_group_config(adminCtx, group_config)
         self.assertEqual(str(e.exception),
-            'function_name parameter field is required');
+            'function_name parameter field is required')
 
         group_config['function_name'] = []
         with self.assertRaises(ValueError) as e:
             self.catalog.set_client_group_config(adminCtx, group_config)
         self.assertEqual(str(e.exception),
-            'function_name parameter field must be a string');
+            'function_name parameter field must be a string')
         group_config['function_name'] = 'my_app'
 
         group_config['client_groups'] = {}
         with self.assertRaises(ValueError) as e:
             self.catalog.set_client_group_config(adminCtx, group_config)
         self.assertEqual(str(e.exception),
-            'client_groups parameter field must be a list');
+            'client_groups parameter field must be a list')
 
         group_config['client_groups'] = [['asdf']]
         with self.assertRaises(ValueError) as e:
             self.catalog.set_client_group_config(adminCtx, group_config)
         self.assertEqual(str(e.exception),
-            'client_groups must be a list of strings');
+            'client_groups must be a list of strings')
 
         group_config = {}
         with self.assertRaises(ValueError) as e:
             self.catalog.remove_client_group_config(adminCtx, group_config)
         self.assertEqual(str(e.exception),
-            'module_name parameter field is required');
+            'module_name parameter field is required')
 
         group_config['module_name'] = []
         with self.assertRaises(ValueError) as e:
             self.catalog.remove_client_group_config(adminCtx, group_config)
         self.assertEqual(str(e.exception),
-            'module_name parameter field must be a string');
+            'module_name parameter field must be a string')
         group_config['module_name'] = 'Tester2'
 
         with self.assertRaises(ValueError) as e:
             self.catalog.remove_client_group_config(adminCtx, group_config)
         self.assertEqual(str(e.exception),
-            'function_name parameter field is required');
+            'function_name parameter field is required')
 
         group_config['function_name'] = []
         with self.assertRaises(ValueError) as e:
             self.catalog.remove_client_group_config(adminCtx, group_config)
         self.assertEqual(str(e.exception),
-            'function_name parameter field must be a string');
+            'function_name parameter field must be a string')
 
         group_filter = {'module_name':[]}
         with self.assertRaises(ValueError) as e:
             self.catalog.list_client_group_configs(adminCtx, group_filter)
         self.assertEqual(str(e.exception),
-            'module_name parameter field must be a string');
+            'module_name parameter field must be a string')
 
         group_filter = {'function_name':[]}
         with self.assertRaises(ValueError) as e:
             self.catalog.list_client_group_configs(adminCtx, group_filter)
         self.assertEqual(str(e.exception),
-            'function_name parameter field must be a string');
+            'function_name parameter field must be a string')
 
         # finally check that we can update something a few times
         self.catalog.set_client_group_config(adminCtx, 
@@ -236,17 +236,17 @@ class ClientGroupMethodsTest(unittest.TestCase):
         with self.assertRaises(ValueError) as e:
             self.catalog.set_volume_mount(userCtx, {})
         self.assertEqual(str(e.exception),
-            'You do not have permission to set volume mounts.');
+            'You do not have permission to set volume mounts.')
 
         with self.assertRaises(ValueError) as e:
             self.catalog.remove_volume_mount(userCtx, {})
         self.assertEqual(str(e.exception),
-            'You do not have permission to remove volume mounts.');
+            'You do not have permission to remove volume mounts.')
 
         with self.assertRaises(ValueError) as e:
             self.catalog.list_volume_mounts(userCtx, {})
         self.assertEqual(str(e.exception),
-            'You do not have permission to view volume mounts.');
+            'You do not have permission to view volume mounts.')
 
         # basic filter should return the preloaded mounts, of which there are 4
         vol_mounts = self.catalog.list_volume_mounts(adminCtx, {})[0]
@@ -288,71 +288,71 @@ class ClientGroupMethodsTest(unittest.TestCase):
         with self.assertRaises(ValueError) as e:
             self.catalog.list_volume_mounts(adminCtx, { 'module_name': [] })
         self.assertEqual(str(e.exception),
-            'module_name parameter field must be a string');
+            'module_name parameter field must be a string')
 
         with self.assertRaises(ValueError) as e:
             self.catalog.list_volume_mounts(adminCtx, { 'function_name': [] })
         self.assertEqual(str(e.exception),
-            'function_name parameter field must be a string');
+            'function_name parameter field must be a string')
 
         with self.assertRaises(ValueError) as e:
             self.catalog.list_volume_mounts(adminCtx, { 'client_group': [] })
         self.assertEqual(str(e.exception),
-            'client_group parameter field must be a string');
+            'client_group parameter field must be a string')
 
         with self.assertRaises(ValueError) as e:
             self.catalog.list_volume_mounts(adminCtx, { 'app_id': 'my_app' })
         self.assertEqual(str(e.exception),
-            'cannot filter by app_id - use function_name instead');
+            'cannot filter by app_id - use function_name instead')
 
         # try to add a volume mount, keep adding things till we get a success
         volume_mount_config = {}
         with self.assertRaises(ValueError) as e:
             self.catalog.set_volume_mount(adminCtx, volume_mount_config)
         self.assertEqual(str(e.exception),
-            'module_name parameter field is required');
+            'module_name parameter field is required')
 
         volume_mount_config['module_name'] = []
         with self.assertRaises(ValueError) as e:
             self.catalog.set_volume_mount(adminCtx, volume_mount_config)
         self.assertEqual(str(e.exception),
-            'module_name parameter field must be a string');
+            'module_name parameter field must be a string')
         volume_mount_config['module_name'] = 'Tester2'
 
         with self.assertRaises(ValueError) as e:
             self.catalog.set_volume_mount(adminCtx, volume_mount_config)
         self.assertEqual(str(e.exception),
-            'function_name parameter field is required');
+            'function_name parameter field is required')
 
         volume_mount_config['function_name'] = []
         with self.assertRaises(ValueError) as e:
             self.catalog.set_volume_mount(adminCtx, volume_mount_config)
         self.assertEqual(str(e.exception),
-            'function_name parameter field must be a string');
+            'function_name parameter field must be a string')
         volume_mount_config['function_name'] = 'my_app'
 
         with self.assertRaises(ValueError) as e:
             self.catalog.set_volume_mount(adminCtx, volume_mount_config)
         self.assertEqual(str(e.exception),
-            'client_group parameter field is required');
+            'client_group parameter field is required')
 
         volume_mount_config['client_group'] = []
         with self.assertRaises(ValueError) as e:
             self.catalog.set_volume_mount(adminCtx, volume_mount_config)
         self.assertEqual(str(e.exception),
-            'client_group parameter field must be a string');
+            'client_group parameter field must be a string')
         volume_mount_config['client_group'] = 'g23123'
 
         with self.assertRaises(ValueError) as e:
             self.catalog.set_volume_mount(adminCtx, volume_mount_config)
         self.assertEqual(str(e.exception),
-            'volume_mounts parameter field is required');
+            'volume_mounts parameter field is required')
 
         volume_mount_config['volume_mounts'] = 'hello'
         with self.assertRaises(ValueError) as e:
             self.catalog.set_volume_mount(adminCtx, volume_mount_config)
         self.assertEqual(str(e.exception),
-            'volume_mounts parameter field must be a list');
+            'volume_mounts parameter field must be a list')
         volume_mount_config['volume_mounts'] = [{
                 'host_dir' : '/tmp',
                 'container_dir' : '/tmp/asdf',
@@ -362,7 +362,7 @@ class ClientGroupMethodsTest(unittest.TestCase):
         with self.assertRaises(ValueError) as e:
             self.catalog.set_volume_mount(adminCtx, volume_mount_config)
         self.assertEqual(str(e.exception),
-            'host_dir parameter field is required in all volume_mount configurations');
+            'host_dir parameter field is required in all volume_mount configurations')
 
         volume_mount_config['volume_mounts'] = [{
                 'host_dir' : '/tmp',
@@ -372,7 +372,7 @@ class ClientGroupMethodsTest(unittest.TestCase):
         with self.assertRaises(ValueError) as e:
             self.catalog.set_volume_mount(adminCtx, volume_mount_config)
         self.assertEqual(str(e.exception),
-            'container_dir parameter field is required in all volume_mount configurations');
+            'container_dir parameter field is required in all volume_mount configurations')
 
         volume_mount_config['volume_mounts'] = [{
                 'host_dir' : '/tmp',
@@ -382,7 +382,7 @@ class ClientGroupMethodsTest(unittest.TestCase):
         with self.assertRaises(ValueError) as e:
             self.catalog.set_volume_mount(adminCtx, volume_mount_config)
         self.assertEqual(str(e.exception),
-            'read_only parameter field is required in all volume_mount configurations');
+            'read_only parameter field is required in all volume_mount configurations')
 
         volume_mount_config['volume_mounts'] = [{
                 'host_dir' : '/tmp',
@@ -393,7 +393,7 @@ class ClientGroupMethodsTest(unittest.TestCase):
         with self.assertRaises(ValueError) as e:
             self.catalog.set_volume_mount(adminCtx, volume_mount_config)
         self.assertEqual(str(e.exception),
-            'read_only parameter field in volume_mount list must be either 1 (true) or 0 (false)');
+            'read_only parameter field in volume_mount list must be either 1 (true) or 0 (false)')
 
         volume_mount_config = {
             'module_name': 'tester2',
@@ -449,21 +449,21 @@ class ClientGroupMethodsTest(unittest.TestCase):
         with self.assertRaises(ValueError) as e:
             self.catalog.remove_volume_mount(adminCtx, {})
         self.assertEqual(str(e.exception),
-            'module_name parameter field is required');
+            'module_name parameter field is required')
         vol_mounts = self.catalog.list_volume_mounts(adminCtx, {})[0]
         self.assertEqual(len(vol_mounts),5)
 
         with self.assertRaises(ValueError) as e:
             self.catalog.remove_volume_mount(adminCtx, {'module_name':'Tester2'})
         self.assertEqual(str(e.exception),
-            'function_name parameter field is required');
+            'function_name parameter field is required')
         vol_mounts = self.catalog.list_volume_mounts(adminCtx, {})[0]
         self.assertEqual(len(vol_mounts),5)
 
         with self.assertRaises(ValueError) as e:
             self.catalog.remove_volume_mount(adminCtx, {'module_name':'Tester2', 'function_name':'my_app'})
         self.assertEqual(str(e.exception),
-            'client_group parameter field is required');
+            'client_group parameter field is required')
         vol_mounts = self.catalog.list_volume_mounts(adminCtx, {})[0]
         self.assertEqual(len(vol_mounts),5)
 

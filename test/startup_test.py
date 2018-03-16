@@ -37,7 +37,7 @@ class StartupTest(unittest.TestCase):
         with self.assertRaises(IOError) as e:
             catalog = Catalog(self.cUtil.getCatalogConfig())
         self.assertEqual(str(e.exception),
-            'Incompatible DB versions.  Expecting DB V4, found DV V2525. You are probably running an old version of the service.  Start up failed.');
+            'Incompatible DB versions.  Expecting DB V4, found DV V2525. You are probably running an old version of the service.  Start up failed.')
 
 
     @classmethod

@@ -51,7 +51,7 @@ class Registrar:
         # (most) of the mongo document for this module snapshot before this registration
         self.module_details = module_details
 
-        self.log_buffer = [];
+        self.log_buffer = []
         self.last_log_time = time.time() # in seconds
         self.log_interval = 1.0 # save log to mongo every second
 
@@ -64,8 +64,8 @@ class Registrar:
         try:
             self.logfile = codecs.open(self.temp_dir+'/registration.log.'+self.registration_id, 'w', 'utf-8')
             self.log('Registration started on '+ str(datetime.datetime.now()) + ' by '+self.username)
-            self.log('Registration ID: '+str(self.registration_id));
-            self.log('Registration Parameters: '+str(self.params));
+            self.log('Registration ID: '+str(self.registration_id))
+            self.log('Registration Parameters: '+str(self.params))
 
             ##############################
             # 1 - clone the repo into the temp directory that should already be reserved for us
@@ -77,7 +77,7 @@ class Registrar:
 
             parsed_url=urlparse(self.git_url)
 
-            self.log('Attempting to clone into: '+basedir);
+            self.log('Attempting to clone into: '+basedir)
             self.log('git clone ' + self.git_url)
             subprocess.check_call( ['git','clone',self.git_url, basedir ] )
             # try to get hash from repo
@@ -222,9 +222,9 @@ class Registrar:
                          self.prev_dev_version['git_commit_message'])
                 self.db.update_dev_version(self.prev_dev_version, git_url=self.git_url)
         finally:
-            self.flush_log_to_db();
-            self.logfile.close();
-            self.cleanup();
+            self.flush_log_to_db()
+            self.logfile.close()
+            self.cleanup()
 
 
 
@@ -270,7 +270,7 @@ class Registrar:
                                     'Module names are permanent- if this is a problem, contact a kbase admin.')
         else:
             # This must be the first registration, so the module must not exist yet
-            self.check_that_module_name_is_valid(module_name);
+            self.check_that_module_name_is_valid(module_name)
 
         # associate the module_name with the log file for easier searching (if we fail sooner, then the module name
         # cannot be used to lookup this log)
@@ -497,7 +497,7 @@ class Registrar:
         self.logfile.write(content)
         self.logfile.flush()
 
-        lines = content.splitlines();
+        lines = content.splitlines()
         for l in lines:
             # add each line to the buffer
             if len(l)>1000 :
@@ -506,7 +506,7 @@ class Registrar:
 
         # save the buffer to mongo if enough time has elapsed, or the buffer is more than 1000 lines
         if (time.time() - self.last_log_time > self.log_interval) or (len(self.log_buffer)>1000):
-            self.flush_log_to_db();
+            self.flush_log_to_db()
 
     def flush_log_to_db(self):
         # todo: if we lose log lines, that's ok.  Make sure we handle case if log is larger than mongo doc size
@@ -573,7 +573,7 @@ class Registrar:
                 line_parse = json.loads(line)
                 log_line = ''
                 if 'id' in line_parse:
-                    log_line += line_parse['id']+' - ';
+                    log_line += line_parse['id']+' - '
                 if 'status' in line_parse:
                     log_line += line_parse['status']
                 if 'progress' in line_parse:
@@ -592,7 +592,7 @@ class Registrar:
                     self.log(str(line_parse),no_end_line=True)
                     raise ValueError('Docker push failed: '+str(line_parse['error']))
 
-        self.log('done pushing docker image to registry for ' + image_name+'\n');
+        self.log('done pushing docker image to registry for ' + image_name+'\n')
 
 
     def run_docker_container(self, dockerclient, image_name, token,

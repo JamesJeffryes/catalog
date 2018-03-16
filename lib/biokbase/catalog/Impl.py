@@ -38,7 +38,7 @@ class Catalog:
                 continue
             print('  '+c+'='+config[c])
         print('Initializing the Catalog Controller...')
-        self.cc = CatalogController(config);
+        self.cc = CatalogController(config)
         print('Initialization complete.')
         #END_CONSTRUCTOR
         pass
@@ -443,7 +443,7 @@ class Catalog:
         # ctx is the context object
         # return variables are: info
         #BEGIN get_module_info
-        info = self.cc.get_module_info(selection);
+        info = self.cc.get_module_info(selection)
         #END get_module_info
 
         # At some point might do deeper type checking...

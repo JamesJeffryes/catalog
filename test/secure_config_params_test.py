@@ -17,34 +17,34 @@ class HiddenConfigParamsTest(unittest.TestCase):
         with self.assertRaises(ValueError) as e:
             self.catalog.set_secure_config_params(anonCtx, {})
         self.assertEqual(str(e.exception), 'You do not have permission to work with hidden ' + 
-                         'configuration parameters.');
+                         'configuration parameters.')
 
         with self.assertRaises(ValueError) as e:
             self.catalog.set_secure_config_params(userCtx, {})
         self.assertEqual(str(e.exception), 'You do not have permission to work with hidden ' + 
-                         'configuration parameters.');
+                         'configuration parameters.')
 
         # remove_secure_config_params
         with self.assertRaises(ValueError) as e:
             self.catalog.remove_secure_config_params(anonCtx, {})
         self.assertEqual(str(e.exception), 'You do not have permission to work with hidden ' + 
-                         'configuration parameters.');
+                         'configuration parameters.')
 
         with self.assertRaises(ValueError) as e:
             self.catalog.remove_secure_config_params(userCtx, {})
         self.assertEqual(str(e.exception), 'You do not have permission to work with hidden ' + 
-                         'configuration parameters.');
+                         'configuration parameters.')
 
         # get_secure_config_params
         with self.assertRaises(ValueError) as e:
             self.catalog.get_secure_config_params(anonCtx, {})
         self.assertEqual(str(e.exception), 'You do not have permission to work with hidden ' + 
-                         'configuration parameters.');
+                         'configuration parameters.')
 
         with self.assertRaises(ValueError) as e:
             self.catalog.get_secure_config_params(userCtx, {})
         self.assertEqual(str(e.exception), 'You do not have permission to work with hidden ' + 
-                         'configuration parameters.');
+                         'configuration parameters.')
 
 
     def test_errors(self):
@@ -53,38 +53,38 @@ class HiddenConfigParamsTest(unittest.TestCase):
         with self.assertRaises(ValueError) as e:
             self.catalog.set_secure_config_params(adminCtx, {})
         self.assertEqual(str(e.exception),
-            'data parameter field is required');
+            'data parameter field is required')
 
         with self.assertRaises(ValueError) as e:
             self.catalog.set_secure_config_params(adminCtx, {'data': "test"})
         self.assertEqual(str(e.exception),
-            'data parameter field must be a list');
+            'data parameter field must be a list')
 
         with self.assertRaises(ValueError) as e:
             self.catalog.remove_secure_config_params(adminCtx, {})
         self.assertEqual(str(e.exception),
-            'data parameter field is required');
+            'data parameter field is required')
 
         with self.assertRaises(ValueError) as e:
             self.catalog.remove_secure_config_params(adminCtx, {'data': "test"})
         self.assertEqual(str(e.exception),
-            'data parameter field must be a list');
+            'data parameter field must be a list')
 
         with self.assertRaises(ValueError) as e:
             self.catalog.get_secure_config_params(adminCtx, {})
         self.assertEqual(str(e.exception),
-            'module_name parameter field is required');
+            'module_name parameter field is required')
 
         with self.assertRaises(ValueError) as e:
             self.catalog.get_secure_config_params(adminCtx, {'module_name': [1, 2, 3]})
         self.assertEqual(str(e.exception),
-            'module_name parameter field must be a string');
+            'module_name parameter field must be a string')
 
         with self.assertRaises(ValueError) as e:
             self.catalog.get_secure_config_params(adminCtx, {'module_name': 'abc',
                                                              'version': [1, 2, 3]})
         self.assertEqual(str(e.exception),
-            'version parameter field must be a string');
+            'version parameter field must be a string')
 
 
     def test_no_data(self):

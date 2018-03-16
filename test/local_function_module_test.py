@@ -27,7 +27,7 @@ class LocalFunctionModuleTest(unittest.TestCase):
         # (2) check state until error or complete, must be complete, and make sure this was relatively fast
         start = time()
         timeout = 6000 #seconds
-        last_line = 0;
+        last_line = 0
         while True:
             sleep(1)
             state = self.catalog.get_module_state(self.cUtil.anonymous_ctx(),{'git_url':giturl})[0]
@@ -183,7 +183,7 @@ class LocalFunctionModuleTest(unittest.TestCase):
             specs = self.catalog.get_local_function_details(self.cUtil.user_ctx(), {'functions':[
                 {'module_name':'GenomeTopowerpointConverter','function_id': 'powerpoint_to_genome', 'release_tag':'not_a_tag'}]})[0]
         self.assertEqual(str(e.exception),
-            '"release_tag" must be one of dev | beta | release');
+            '"release_tag" must be one of dev | beta | release')
 
         specs = self.catalog.get_local_function_details(self.cUtil.user_ctx(), {'functions':[
             {'module_name':'GenomeTopowerpointConverter','function_id': 'not a function'}]})[0]
@@ -201,67 +201,67 @@ class LocalFunctionModuleTest(unittest.TestCase):
             self.catalog.get_local_function_details(self.cUtil.anonymous_ctx(), 
                 {})
         self.assertEqual(str(e.exception),
-            'Missing required parameter field "functions"');
+            'Missing required parameter field "functions"')
 
         with self.assertRaises(ValueError) as e:
             self.catalog.get_local_function_details(self.cUtil.anonymous_ctx(), 
                 {'functions':{}})
         self.assertEqual(str(e.exception),
-            'Parameter field "functions" must be a list');
+            'Parameter field "functions" must be a list')
 
         specs = self.catalog.get_local_function_details(self.cUtil.anonymous_ctx(), 
                 {'functions':[]})[0]
-        self.assertEqual(len(specs),0);
+        self.assertEqual(len(specs),0)
 
         with self.assertRaises(ValueError) as e:
             self.catalog.get_local_function_details(self.cUtil.anonymous_ctx(), 
                 {'functions':[[]]})
         self.assertEqual(str(e.exception),
-            'Values of the "functions" list must be objects');
+            'Values of the "functions" list must be objects')
 
         with self.assertRaises(ValueError) as e:
             self.catalog.get_local_function_details(self.cUtil.anonymous_ctx(), 
                 {'functions':[{}]})
         self.assertEqual(str(e.exception),
-            'All functions specified must specify a "module_name"');
+            'All functions specified must specify a "module_name"')
 
         with self.assertRaises(ValueError) as e:
             self.catalog.get_local_function_details(self.cUtil.anonymous_ctx(), 
                 {'functions':[{'module_name':{}}]})
         self.assertEqual(str(e.exception),
-            '"module_name" in function specification must be a string');
+            '"module_name" in function specification must be a string')
 
         with self.assertRaises(ValueError) as e:
             self.catalog.get_local_function_details(self.cUtil.anonymous_ctx(), 
                 {'functions':[{'module_name':'blah'}] } )
         self.assertEqual(str(e.exception),
-            'All functions specified must specify a "function_id"');
+            'All functions specified must specify a "function_id"')
 
         with self.assertRaises(ValueError) as e:
             self.catalog.get_local_function_details(self.cUtil.anonymous_ctx(), 
                 {'functions':[{'module_name':'blah', 'function_id':[]} ]})
         self.assertEqual(str(e.exception),
-            '"function_id" in function specification must be a string');
+            '"function_id" in function specification must be a string')
 
 
         with self.assertRaises(ValueError) as e:
             self.catalog.get_local_function_details(self.cUtil.anonymous_ctx(), 
                 {'functions':[{'module_name':'blah', 'function_id':'function', 'release_tag':{} }]})
         self.assertEqual(str(e.exception),
-            '"release_tag" in function specification must be a string');
+            '"release_tag" in function specification must be a string')
 
 
         with self.assertRaises(ValueError) as e:
             self.catalog.get_local_function_details(self.cUtil.anonymous_ctx(), 
                 {'functions':[{'module_name':'blah', 'function_id':'function', 'release_tag':'next' }]})
         self.assertEqual(str(e.exception),
-            '"release_tag" must be one of dev | beta | release');
+            '"release_tag" must be one of dev | beta | release')
 
         with self.assertRaises(ValueError) as e:
             self.catalog.get_local_function_details(self.cUtil.anonymous_ctx(), 
                 {'functions':[{'module_name':'blah', 'function_id':'function', 'release_tag':'beta', 'git_commit_hash':{}}]})
         self.assertEqual(str(e.exception),
-            '"git_commit_hash" in function specification must be a string');
+            '"git_commit_hash" in function specification must be a string')
 
     @classmethod
     def setUpClass(cls):
